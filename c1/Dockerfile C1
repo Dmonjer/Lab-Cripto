@@ -1,0 +1,8 @@
+FROM ubuntu:16.04
+
+# Se actualizan los repositorios y se instala el cliente OpenSSH
+RUN apt-get update && apt-get install -y openssh-client
+
+# Inicia una terminal
+CMD ["bash"]
+

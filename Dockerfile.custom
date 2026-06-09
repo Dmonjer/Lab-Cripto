@@ -1,0 +1,27 @@
+FROM ubuntu:22.04
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    zlib1g-dev \
+    libssl-dev \
+    wget \
+    iputils-ping \
+    nano
+
+WORKDIR /root
+
+RUN wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.0p1.tar.gz && \
+    tar -xzf openssh-9.0p1.tar.gz
+
+WORKDIR /root/openssh-9.0p1
+
+# ¡Aquí está la magia! Reemplazamos la cadena de texto original por la del informante
+RUN sed -i 's/OpenSSH_9.0/OpenSSH_?/g' version.h
+
+RUN ./configure --prefix=/usr/local --sysconfdir=/etc/ssh && \
+    make && \
+    make install
+
+ENV PATH="/usr/local/bin:${PATH}"
+
+CMD ["/bin/bash"]

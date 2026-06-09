@@ -1,0 +1,9 @@
+FROM ubuntu:22.04
+RUN apt-get update && apt-get install -y openssh-client openssh-server
+RUN useradd -m -s /bin/bash prueba
+RUN echo "prueba:prueba" | chpasswd
+RUN mkdir /var/run/sshd
+RUN ssh-keygen -A
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
+
